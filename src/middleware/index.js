@@ -25,22 +25,25 @@ middleware.hashPass = async (req, res, next) =>
 // compare the hashed password with the normal text password
 middleware.comparePass = async (req, res, next) => 
 {
+    let err = 0
     try 
     {
-        console.log('compare pass ' + req.body.username)
         req.user = await User.findOne({where: {username: req.body.username}})      
 
         if (req.user === null) 
         {
-            throw new Error ("#password or username doesn't match")
+            err = 1
+            throw new Error("password or username doesn't match")
         }
+
+        err = 0
         
-        console.log('user found password ' + req.body.password)
         const comparePassword = await bcrypt.compare(req.body.password, req.user.password)
 
         if(!comparePassword)
         {
-            throw new Error ("password or username doesn't match")
+            err = 1
+            throw new Error("password or username doesn't match")
         } 
 
         console.log('password is fine')
@@ -49,7 +52,14 @@ middleware.comparePass = async (req, res, next) =>
     } 
     catch (error) 
     {
-        res.status(501).json({errorMessage: 'Compare Pass error - ' + error.message, error: error})
+        if (err === 1)
+        {
+            res.status(401).json({error: error.message})
+        }
+        else
+        {
+            res.status(501).json({errorMessage: 'Compare Pass error - ' + error.message, error: error})
+        }
     }
 }
 
@@ -66,19 +76,17 @@ middleware.tokenCheck = async (req, res, next) =>
         
         const token = req.header("Authorization").replace("Bearer ", "")
     
-        console.log('Token: ' + token)
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
 
-        console.log('Decoded Token: ' + JSON.stringify(decodedToken))
         const user = await User.findOne({where: {id: decodedToken.id}})
         
-        console.log('User: ' + JSON.stringify(user))
+
         if(!user)
         {
             throw new Error("User is not authorised")
         }
         req.authUser = user
-        console.log('req.authUser: ' + JSON.stringify(req.authUser))
+        console.log('User ' + user.username + ' is authorised')
         next()
 
     } 
