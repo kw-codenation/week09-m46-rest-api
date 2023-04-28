@@ -5,9 +5,9 @@ Program Sequence for the Images
 Register
 ========
 
-register-1.jpg         database empty
-register-2.jpg         execute 'users/register' to add a new user, shows success message
-register-3.jpg         database show one record entered  (note  that email address is 'idris@elb.com'
+register-1.jpg         database empty  
+register-2.jpg         execute 'users/register' to add a new user, shows success message  
+register-3.jpg         database show one record entered  (note  that email address is 'idris@elb.com')  
 
 Update
 ======
