@@ -12,19 +12,19 @@ register-3.jpg         database show one record entered  (note  that email addre
 Update
 ======
 
-update-1.jpg          execute 'users/update' to change email address on 'Idris Elba' entry to 'idris@elba.com'
-update-2.jpg          database entry shows change of email address
+update-1.jpg          execute 'users/update' to change email address on 'Idris Elba' entry to 'idris@elba.com'  
+update-2.jpg          database entry shows change of email address  
 
 Delete
 =======
 
-delete-1.jpg          execute 'users/delete' to delete user 'Idris Elba' from the table users
-delete-2.jpg          database shows that user 'Idris Elba' has been deleted (table is empty)
+delete-1.jpg          execute 'users/delete' to delete user 'Idris Elba' from the table users  
+delete-2.jpg          database shows that user 'Idris Elba' has been deleted (table is empty)  
 
 Get All Users
 =============
 
-all-users-1.jpg       execute of 'users/login' for user to get authorisation token
-all-users-2.jpg       using token in Authorization header to execute 'users/all' to get all users  
+all-users-1.jpg       execute of 'users/login' for user to get authorisation token  
+all-users-2.jpg       using token in Authorization header to execute 'users/all' to get all users    
 
 
