@@ -28,3 +28,9 @@ all-users-1.jpg       execute of 'users/login' for user to get authorisation tok
 all-users-2.jpg       using token in Authorization header to execute 'users/all' to get all users    
 
 
+Login Error Checking ('users/login')
+====================
+
+login-1.jpg           shows a successful login for user 'Cary Grant'  
+login-2.jpg           shows a successful catching of an invalid user 'Cary Granttttt'  
+login-3.jpg           shows a successful catching of an invalid password 'passworddddd'            
