@@ -62,7 +62,7 @@ controllers.getAllUsers = async (req, res) =>
 
       res.status(201).json
       (
-        {message:'get all users successful (' + users.length + ' found)'
+        {message:req.authUser.username + ' has been authorised, get all users successful (' + users.length + ' found)'
         ,users:users
         }
       )
