@@ -25,14 +25,15 @@ middleware.hashPass = async (req, res, next) =>
 // compare the hashed password with the normal text password
 middleware.comparePass = async (req, res, next) => 
 {
-    let err = 0
+    let status = 501
+
     try 
     {
         req.user = await User.findOne({where: {username: req.body.username}})      
 
         if (req.user === null) 
         {
-            err = 1
+            status = 401
             throw new Error("password or username doesn't match")
         }
 
@@ -42,7 +43,7 @@ middleware.comparePass = async (req, res, next) =>
 
         if(!comparePassword)
         {
-            err = 1
+            status = 401
             throw new Error("password or username doesn't match")
         } 
 
@@ -52,25 +53,20 @@ middleware.comparePass = async (req, res, next) =>
     } 
     catch (error) 
     {
-        if (err === 1)
-        {
-            res.status(401).json({error: error.message})
-        }
-        else
-        {
-            res.status(501).json({errorMessage: 'Compare Pass error - ' + error.message, error: error})
-        }
+        res.status(status).json({errorMessage: error.message})
     }
 }
 
 //
 middleware.tokenCheck = async (req, res, next) => 
 {
+    let status = 501
+
     try 
     {
-        console.log('Token Check')
         if (!req.header("Authorization")) 
         {
+            status = 401
             throw new Error("No header or token passed in the request")
         }
         
@@ -80,9 +76,9 @@ middleware.tokenCheck = async (req, res, next) =>
 
         const user = await User.findOne({where: {id: decodedToken.id}})
         
-
         if(!user)
         {
+            status = 401
             throw new Error("User is not authorised")
         }
         req.authUser = user
@@ -92,7 +88,7 @@ middleware.tokenCheck = async (req, res, next) =>
     } 
     catch (error) 
     {
-        res.status(501).json({errorMessage: 'tokenCheck error - ' + error.message, error: error})
+        res.status(status).json({errorMessage: 'tokenCheck error - ' + error.message, error: error})
     }
 }
 
